@@ -6,6 +6,7 @@ import inspect
 import difflib
 import time
 import pathlib
+import shutil
 
 from .result import TestResult
 from .util import strclass, safe_repr, coloured_text
@@ -726,6 +727,11 @@ class TestCase(object):
             return
 
         result = None
+
+        if self.option("update"):
+            shutil.copyfile(file1, file2)
+            return
+            
 
         if self.option("fuzzy"):
             ratio = self._file_match_ratio(file1, file2)

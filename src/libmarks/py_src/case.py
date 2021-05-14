@@ -716,29 +716,29 @@ class TestCase(object):
             msg = msg or f"signal mismatch: expected {signal}, got {process.signal}"
             self._check_timeout(process, msg)
 
-    def assert_files_equal(self, file1, file2, msg=None):
+    def assert_files_equal(self, file, expected, msg=None):
         """
         Assert that the given files contain exactly the same contents.
         """
         if self.option("explain"):
             # Print out the command to check the two files.
             self._print_coloured("Check files are the same:", attrs=["bold"])
-            print(f"\tdiff {file1} {file2}")
+            print(f"\tdiff {file} {expected}")
             return
 
         result = None
 
         if self.option("update"):
-            shutil.copyfile(file1, file2)
+            shutil.copyfile(file, expected)
             return
             
 
         if self.option("fuzzy"):
-            ratio = self._file_match_ratio(file1, file2)
+            ratio = self._file_match_ratio(file, expected)
             if abs(ratio - 1.0) > 1e-03:
                 result = f"file mismatch <<{round(ratio, 2)}>>"
         else:
-            result = self._compare_files(file1, file2, msg=msg)
+            result = self._compare_files(file, expected, msg=msg)
 
         if result is not None:
             raise self.failure_exception(result)

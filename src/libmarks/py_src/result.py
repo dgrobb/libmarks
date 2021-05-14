@@ -110,7 +110,9 @@ class TestResult(object):
 
     def _print_coloured(self, text, fg=None, bg=None, attrs=None, **kwargs):
         stream = kwargs.get("file", sys.stdout)
-        text = util.coloured_text(text, colour=fg, background=bg, attrs=attrs)
+        if stream.isatty():
+            # Only add colours and attributes if stream is a TTY.
+            text = util.coloured_text(text, colour=fg, background=bg, attrs=attrs)
         print(text, **kwargs)
 
     def option(self, option):

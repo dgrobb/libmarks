@@ -729,6 +729,7 @@ class TestCase(object):
         result = None
 
         if self.option("update"):
+            print(f"\texpected file updated: {expected}")
             shutil.copyfile(file, expected)
             return
             

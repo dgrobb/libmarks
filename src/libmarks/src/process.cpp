@@ -251,7 +251,7 @@ void Process::send_signal(int signalVal)
             perform_wait(true);
             if (!finished)
                 throw SignalException();
-        } else if (kill(childPid, signalVal) == -1) {
+        } else if (kill(-1 * childPid, signalVal) == -1) {
             throw SignalException();
         }
     }

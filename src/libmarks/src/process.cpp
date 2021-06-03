@@ -245,7 +245,8 @@ void Process::send_signal(int signalVal)
 {
     if (!finished) {
         // TODO: Check range allowed for child pid
-        if (childPid <= 0 || kill(childPid, SIG_CHECK) == -1) {
+        // negated pid so we kill the process group
+        if (childPid <= 0 || kill(-1 * childPid, SIG_CHECK) == -1) {
             // Perform a wait, as the group may be dead already.
             perform_wait(true);
             if (!finished)
